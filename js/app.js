@@ -1,7 +1,24 @@
 /*
  * Create a list that holds all of your cards
  */
-
+const cardDeck = [
+  "fa-diamond",
+  "fa-diamond",
+  "fa-paper-plane-o",
+  "fa-paper-plane-o",
+  "fa-anchor",
+  "fa-anchor",
+  "fa-bolt",
+  "fa-bolt",
+  "fa-cube",
+  "fa-cube",
+  "fa-leaf",
+  "fa-leaf",
+  "fa-bicycle",
+  "fa-bicycle",
+  "fa-bomb",
+  "fa-bomb"
+];
 
 /*
  * Display the cards on the page
@@ -9,6 +26,20 @@
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
+ const shuffledDeck = shuffle(cardDeck);
+ const deckHTML = document.getElementsByClassName("deck");
+ const cardHTML = document.getElementsByClassName("card");
+
+ deckHTML[0].style.visibility = "hidden";
+ console.log(deckHTML);
+ console.log(cardHTML);
+
+ for(let i = 0; i < cardHTML.length; i++) {
+    cardHTML[i].lastElementChild.className  += ' ' + shuffledDeck[i];
+    console.log(cardHTML[i].lastElementChild);
+ }
+
+ deckHTML[0].style.visibility = "visible";
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
