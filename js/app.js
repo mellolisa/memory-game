@@ -21,8 +21,8 @@ const cardDeck = [
 ];
 
 let openList = [];
-let flipNum = 0;
 let lastCardLocation = -1;
+let numMoves = 1;
 
 /*
  * Display the cards on the page
@@ -33,6 +33,7 @@ let lastCardLocation = -1;
  const shuffledDeck = shuffle(cardDeck);
  const deckHTML = document.getElementsByClassName("deck");
  const cardHTML = document.getElementsByClassName("card");
+ const moveCounterHTML = document.getElementsByClassName("moves");
 
  deckHTML[0].style.visibility = "hidden";
  console.log(deckHTML);
@@ -105,6 +106,13 @@ function hideCard(card) {
   }
 }
 
+//Increment move counter and display it on the page
+function incrementMoveCounter() {
+  numMoves += 1;
+  moveCounterHTML[0].innerHTML = "Moves Completed: ";
+  moveCounterHTML[0].innerHTML += (numMoves - 1) / 2;
+}
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol
@@ -117,11 +125,11 @@ for(let i = 0; i < cardHTML.length; i++) {
     /*
      *  - add the card to a *list* of "open" cards
      */
-    if(flipNum === 0) {
+    if(numMoves % 2 === 1) {
       addToOpenList(i);
       lastCardLocation = openList[openList.length - 1].location;
       console.log(lastCardLocation);
-      flipNum += 1;
+      incrementMoveCounter();
     } else if(lastCardLocation != i) {
 
       /*
@@ -143,18 +151,18 @@ for(let i = 0; i < cardHTML.length; i++) {
          cardHTML[lastCardLocation].className += " match";
          console.log("ME: " + matchedElement);
 
-         flipNum = 0;
+         incrementMoveCounter();
        } else {
 
          /*
           * remove cards from list and hide card's symbol if no match
           */
 
+         incrementMoveCounter();
          setTimeout(function(){
            hideCard(element.target);
            openList.pop();
            hideCard(cardHTML[lastCardLocation]);
-           flipNum = 0;
          }, 1000);
        }
 
@@ -164,9 +172,6 @@ for(let i = 0; i < cardHTML.length; i++) {
 }
 
 
-
-
-/*    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
+/*    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
