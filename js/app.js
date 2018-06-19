@@ -89,6 +89,8 @@ function checkListForMatch(index){
   let matchLocation = -1;
   let found = openList.find(function(element) {
     matchLocation = element.location;
+    console.log(matchLocation);
+    console.log(currentCard.location);
     return element.symbol === currentCard.symbol;
   });
 
@@ -142,31 +144,36 @@ for(let i = 0; i < cardHTML.length; i++) {
       console.log("ME: " + matchedElement);
       if(matchedElement > 0) {
         console.log("It's a MATCH with: " + matchedElement);
-        /*
-         * Lock the cards in the open position
-         */
-        element.target.className += " match";
-        cardHTML[lastCardLocation].className += " match";
-        console.log("ME: " + matchedElement);
+
         cardAddStatus = addToOpenList(i);
         if(cardAddStatus === 0) {
+          /*
+           * Lock the cards in the open position
+           */
+
+          element.target.className += " match";
+          cardHTML[lastCardLocation].className += " match";
+          console.log("ME: " + matchedElement);
+
           incrementMoveCounter();
         }
       } else {
 
-           /*
-            * remove cards from list and hide card's symbol if no match
-            */
+        /*
+         * remove cards from list and hide card's symbol if no match
+         */
 
-           incrementMoveCounter();
-           setTimeout(function(){
-             hideCard(element.target);
-             openList.pop();
-             hideCard(cardHTML[lastCardLocation]);
-           }, 1000);
-         }
-     }
+        incrementMoveCounter();
+        setTimeout(function(){
+          hideCard(element.target);
 
+          //remove the first card
+          openList.pop();
+          hideCard(cardHTML[lastCardLocation]);
+
+        }, 1000);
+      }
+    }
   });
 }
 
