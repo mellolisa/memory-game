@@ -36,12 +36,9 @@ let numMoves = 1;
  const moveCounterHTML = document.getElementsByClassName("moves");
 
  deckHTML[0].style.visibility = "hidden";
- console.log(deckHTML);
- console.log(cardHTML);
 
  for(let i = 0; i < cardHTML.length; i++) {
     cardHTML[i].lastElementChild.className  += ' ' + shuffledDeck[i];
-    console.log(cardHTML[i].lastElementChild);
  }
 
  deckHTML[0].style.visibility = "visible";
@@ -89,8 +86,6 @@ function checkListForMatch(index){
   let matchLocation = -1;
   let found = openList.find(function(element) {
     matchLocation = element.location;
-    console.log(matchLocation);
-    console.log(currentCard.location);
     return element.symbol === currentCard.symbol;
   });
 
@@ -115,6 +110,14 @@ function incrementMoveCounter() {
   moveCounterHTML[0].innerHTML += (numMoves - 1) / 2;
 }
 
+//Display that the game is won
+function displayWinGame(){
+  score = (numMoves - 1) / 2;
+  console.log("Winner!!!!! Score: " + score);
+
+  deckHTML[0].style.visibility = "hidden";
+}
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol
@@ -122,7 +125,6 @@ function incrementMoveCounter() {
 let cardAddStatus = 0;
 for(let i = 0; i < cardHTML.length; i++) {
   cardHTML[i].addEventListener("click", function(element) {
-    console.log(element.target)
     showCard(element.target);
 
     /*
@@ -141,9 +143,7 @@ for(let i = 0; i < cardHTML.length; i++) {
        */
 
       let matchedElement = checkListForMatch(i);
-      console.log("ME: " + matchedElement);
       if(matchedElement > 0) {
-        console.log("It's a MATCH with: " + matchedElement);
 
         cardAddStatus = addToOpenList(i);
         if(cardAddStatus === 0) {
@@ -153,9 +153,13 @@ for(let i = 0; i < cardHTML.length; i++) {
 
           element.target.className += " match";
           cardHTML[lastCardLocation].className += " match";
-          console.log("ME: " + matchedElement);
 
           incrementMoveCounter();
+
+          //if last match, the game is won!!!
+          if(openList.length == 16){
+            displayWinGame();
+          }
         }
       } else {
 
