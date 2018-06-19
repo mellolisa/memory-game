@@ -78,9 +78,9 @@ function addToOpenList(index){
 
   if(typeof found === 'undefined'){
     openList.push(currentCard);
-    console.log(currentCard);
+    return 0;
   }
-  return;
+  return 1;
 }
 
 //Determine if the card selected matches any card already in the list
@@ -92,7 +92,7 @@ function checkListForMatch(index){
     return element.symbol === currentCard.symbol;
   });
 
-  if(typeof found === 'undefined'){
+  if(typeof found === 'undefined') {
     return -1;
   } else {
     return matchLocation;
@@ -117,6 +117,7 @@ function incrementMoveCounter() {
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol
  */
+let cardAddStatus = 0;
 for(let i = 0; i < cardHTML.length; i++) {
   cardHTML[i].addEventListener("click", function(element) {
     console.log(element.target)
@@ -126,10 +127,11 @@ for(let i = 0; i < cardHTML.length; i++) {
      *  - add the card to a *list* of "open" cards
      */
     if(numMoves % 2 === 1) {
-      addToOpenList(i);
-      lastCardLocation = openList[openList.length - 1].location;
-      console.log(lastCardLocation);
-      incrementMoveCounter();
+      cardAddStatus = addToOpenList(i);
+      if(cardAddStatus === 0){
+         lastCardLocation = openList[openList.length - 1].location;
+         incrementMoveCounter();
+      }
     } else if(lastCardLocation != i) {
 
       /*
@@ -140,38 +142,34 @@ for(let i = 0; i < cardHTML.length; i++) {
       console.log("ME: " + matchedElement);
       if(matchedElement > 0) {
         console.log("It's a MATCH with: " + matchedElement);
-
-        addToOpenList(i);
-
         /*
          * Lock the cards in the open position
          */
+        element.target.className += " match";
+        cardHTML[lastCardLocation].className += " match";
+        console.log("ME: " + matchedElement);
+        cardAddStatus = addToOpenList(i);
+        if(cardAddStatus === 0) {
+          incrementMoveCounter();
+        }
+      } else {
 
-         element.target.className += " match";
-         cardHTML[lastCardLocation].className += " match";
-         console.log("ME: " + matchedElement);
+           /*
+            * remove cards from list and hide card's symbol if no match
+            */
 
-         incrementMoveCounter();
-       } else {
-
-         /*
-          * remove cards from list and hide card's symbol if no match
-          */
-
-         incrementMoveCounter();
-         setTimeout(function(){
-           hideCard(element.target);
-           openList.pop();
-           hideCard(cardHTML[lastCardLocation]);
-         }, 1000);
-       }
-
-   }
+           incrementMoveCounter();
+           setTimeout(function(){
+             hideCard(element.target);
+             openList.pop();
+             hideCard(cardHTML[lastCardLocation]);
+           }, 1000);
+         }
+     }
 
   });
 }
 
 
-/*    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
+ /*    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
