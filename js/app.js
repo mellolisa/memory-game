@@ -150,11 +150,12 @@ for(let i = 0; i < cardHTML.length; i++) {
           * remove cards from list and hide card's symbol if no match
           */
 
-         setTimeout(hideCard(element.target), 8000);
-         openList.pop();
-         console.log(cardHTML[lastCardLocation]);
-         hideCard(cardHTML[lastCardLocation]);
-         flipNum = 0;
+         setTimeout(function(){
+           hideCard(element.target);
+           openList.pop();
+           hideCard(cardHTML[lastCardLocation]);
+           flipNum = 0;
+         }, 1000);
        }
 
    }
