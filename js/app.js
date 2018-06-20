@@ -112,10 +112,13 @@ function incrementMoveCounter() {
 
 //Display that the game is won
 function displayWinGame(){
-  score = (numMoves - 1) / 2;
-  console.log("Winner!!!!! Score: " + score);
-
-  deckHTML[0].style.visibility = "hidden";
+  var modal = document.getElementById('winModal');
+  modal.style.display = "block";
+  window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+  }
 }
 
 /*
