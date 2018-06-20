@@ -34,6 +34,8 @@ let numMoves = 1;
  const deckHTML = document.getElementsByClassName("deck");
  const cardHTML = document.getElementsByClassName("card");
  const moveCounterHTML = document.getElementsByClassName("moves");
+ const winnerHTML = document.getElementsByClassName("modal-content");
+ const modal = document.getElementById('winModal');
 
  deckHTML[0].style.visibility = "hidden";
 
@@ -112,7 +114,8 @@ function incrementMoveCounter() {
 
 //Display that the game is won
 function displayWinGame(){
-  var modal = document.getElementById('winModal');
+  let score = (numMoves - 1) / 2;
+  modal.innerHTML = '<div class="modal-content"><p>You won the game in ' + score + ' moves!</p></div>';
   modal.style.display = "block";
   window.onclick = function(event) {
     if (event.target == modal) {
