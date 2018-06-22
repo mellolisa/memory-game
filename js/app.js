@@ -35,25 +35,52 @@ let t = 0;
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
- const shuffledDeck = shuffle(cardDeck);
- const deckHTML = document.getElementsByClassName("deck");
- const cardHTML = document.getElementsByClassName("card");
- const moveCounterHTML = document.getElementsByClassName("moves");
- const winnerHTML = document.getElementsByClassName("modal-content");
- const modal = document.getElementById('winModal');
- const timerHTML = document.getElementsByClassName("time");
- const starHTML = document.getElementsByClassName("stars");
+ let shuffledDeck = [];
+ let deckHTML = "";
+ let cardHTML = "";
+ let moveCounterHTML = "";
+ let winnerHTML = "";
+ let modal = "";
+ let timerHTML = "";
+ let starHTML = "";
+ const restartHTML = document.getElementsByClassName("restart");
 
- deckHTML[0].style.visibility = "hidden";
+ function restartGame(){
+   shuffledDeck = [];
+   shuffledDeck = shuffle(cardDeck);
+   deckHTML = document.getElementsByClassName("deck");
+   cardHTML = document.getElementsByClassName("card");
+   moveCounterHTML = document.getElementsByClassName("moves");
+   winnerHTML = document.getElementsByClassName("modal-content");
+   modal = document.getElementById("winModal");
+   timerHTML = document.getElementsByClassName("time");
+   starHTML = document.getElementsByClassName("stars");
+   numMoves = 1;
+   lastCardLocation = -1;
+   openList = [];
 
- for(let i = 0; i < cardHTML.length; i++) {
-    cardHTML[i].lastElementChild.className  += ' ' + shuffledDeck[i];
+   timerRunning = false;
+   startTime = 0;
+   clearInterval(t);
+
+
+   deckHTML[0].style.visibility = "hidden";
+
+   for(let i = 0; i < cardHTML.length; i++) {
+      cardHTML[i].className = "card";
+      cardHTML[i].lastElementChild.className  = 'fa ' + shuffledDeck[i];
+   }
+
+   deckHTML[0].style.visibility = "visible";
+
+   //reset score panel
+   updateStars();
+   timerHTML[0].innerHTML = "Game Time: <time>00:00:00</time>";
+   moveCounterHTML[0].innerHTML = "Moves Completed: 0";
  }
 
- deckHTML[0].style.visibility = "visible";
-
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
+ // Shuffle function from http://stackoverflow.com/a/2450976
+ function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
@@ -65,7 +92,10 @@ function shuffle(array) {
     }
 
     return array;
-}
+ }
+
+ //Perform steps necessary to start game from scratch
+ restartGame();
 
 // Display a card's symbol
 function showCard(card) {
@@ -172,6 +202,12 @@ function startTimer() {
 function updateStars(){
   let score = (numMoves - 1) / 2;
   switch (score) {
+    case 0:
+      //support restart case:
+      starHTML[0].children[0].innerHTML = '<i class="fa fa-star"></i>';
+      starHTML[0].children[1].innerHTML = '<i class="fa fa-star"></i>';
+      starHTML[0].children[2].innerHTML = '<i class="fa fa-star"></i>';
+      break;
     case 10:
       //decrease stars to 2.5
       starHTML[0].children[2].innerHTML = '<i class="fa fa-star-half-o"></i>';
@@ -198,6 +234,11 @@ function updateStars(){
 
   }
 }
+
+//Set up Event Listener for restart button
+restartHTML[0].addEventListener("click", function() {
+  restartGame();
+})
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -265,7 +306,3 @@ for(let i = 0; i < cardHTML.length; i++) {
     }
   });
 }
-
-
- /*    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
