@@ -201,6 +201,7 @@ function startTimer() {
 
 function updateStars(){
   let score = (numMoves - 1) / 2;
+  starHTML[0].style.visibility = "hidden";
   switch (score) {
     case 0:
       //support restart case:
@@ -231,8 +232,9 @@ function updateStars(){
     case 35:
       //decrease stars to 0
       starHTML[0].children[2].innerHTML = '<i class="fa fa-star-o"></i>';
-
+      break;
   }
+  starHTML[0].style.visibility = "visible";
 }
 
 //Set up Event Listener for restart button
