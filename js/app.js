@@ -160,8 +160,6 @@ function incrementTime() {
   hours = Math.floor(updatedTime / 1800000);
   minutes = Math.floor((updatedTime % 1800000) / 30000);
   seconds = Math.floor((updatedTime % 30000) / 1000);
-  console.log(updatedTime);
-  console.log(seconds);
   timerHTML[0].innerHTML = "Game Time: <time>" + zeroFill(hours,2) + ":" + zeroFill(minutes,2) + ":" + zeroFill(seconds,2) + "</time>";
 }
 
@@ -262,7 +260,7 @@ for(let i = 0; i < cardHTML.length; i++) {
           openList.pop();
           hideCard(cardHTML[lastCardLocation]);
 
-        }, 1000);
+        }, 500);
       }
     }
   });
