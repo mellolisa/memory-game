@@ -24,6 +24,14 @@ let openList = [];
 let lastCardLocation = -1;
 let numMoves = 1;
 
+//initialize Timer variables
+let hours = 0;
+let minutes = 0;
+let seconds = 0;
+let timerRunning = false;
+let startTime = 0;
+let t = 0;
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -36,6 +44,7 @@ let numMoves = 1;
  const moveCounterHTML = document.getElementsByClassName("moves");
  const winnerHTML = document.getElementsByClassName("modal-content");
  const modal = document.getElementById('winModal');
+ const timerHTML = document.getElementsByClassName("time");
 
  deckHTML[0].style.visibility = "hidden";
 
@@ -115,6 +124,11 @@ function incrementMoveCounter() {
 //Display that the game is won
 function displayWinGame(){
   let score = (numMoves - 1) / 2;
+
+  //stop the timer
+  clearInterval(t);
+  timerRunning = false;
+
   modal.innerHTML = '<div class="modal-content"><p>You won the game in ' + score + ' moves!</p></div>';
   modal.style.display = "block";
   window.onclick = function(event) {
@@ -122,6 +136,35 @@ function displayWinGame(){
         modal.style.display = "none";
     }
   }
+}
+/* Copied zeroFill function from https://stackoverflow.com/questions/1267283/how-can-i-pad-a-value-with-leading-zeros */
+function zeroFill( number, width )
+{
+  width -= number.toString().length;
+  if ( width > 0 )
+  {
+    return new Array( width + (/\./.test( number ) ? 2 : 1) ).join( '0' ) + number;
+  }
+  return number + ""; // always return a string
+}
+
+
+function incrementTime() {
+  let currentTime = new Date();
+  let updatedTime = currentTime - startTime;
+
+  hours = Math.floor(updatedTime / 1800000);
+  minutes = Math.floor((updatedTime % 1800000) / 30000);
+  seconds = Math.floor((updatedTime % 30000) / 1000);
+  console.log(updatedTime);
+  console.log(seconds);
+  timerHTML[0].innerHTML = "Game Time: <time>" + zeroFill(hours,2) + ":" + zeroFill(minutes,2) + ":" + zeroFill(seconds,2) + "</time>";
+}
+
+function startTimer() {
+  timerRunning = true;
+  startTime = new Date();
+  t = setInterval(incrementTime, 500);
 }
 
 /*
@@ -132,6 +175,10 @@ let cardAddStatus = 0;
 for(let i = 0; i < cardHTML.length; i++) {
   cardHTML[i].addEventListener("click", function(element) {
     showCard(element.target);
+    if( timerRunning === false )
+    {
+      startTimer();
+    }
 
     /*
      *  - add the card to a *list* of "open" cards
