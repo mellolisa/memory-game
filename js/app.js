@@ -25,9 +25,6 @@ let lastCardLocation = -1;
 let numMoves = 1;
 
 //initialize Timer variables
-let hours = 0;
-let minutes = 0;
-let seconds = 0;
 let timerRunning = false;
 let startTime = 0;
 let t = 0;
@@ -45,6 +42,7 @@ let t = 0;
  const winnerHTML = document.getElementsByClassName("modal-content");
  const modal = document.getElementById('winModal');
  const timerHTML = document.getElementsByClassName("time");
+ const starHTML = document.getElementsByClassName("stars");
 
  deckHTML[0].style.visibility = "hidden";
 
@@ -119,6 +117,9 @@ function incrementMoveCounter() {
   numMoves += 1;
   moveCounterHTML[0].innerHTML = "Moves Completed: ";
   moveCounterHTML[0].innerHTML += (numMoves - 1) / 2;
+
+  //update the number of stars displayed
+  updateStars();
 }
 
 //Display that the game is won
@@ -152,6 +153,9 @@ function zeroFill( number, width )
 function incrementTime() {
   let currentTime = new Date();
   let updatedTime = currentTime - startTime;
+  let hours = 0;
+  let minutes = 0;
+  let seconds = 0;
 
   hours = Math.floor(updatedTime / 1800000);
   minutes = Math.floor((updatedTime % 1800000) / 30000);
@@ -165,6 +169,36 @@ function startTimer() {
   timerRunning = true;
   startTime = new Date();
   t = setInterval(incrementTime, 500);
+}
+
+function updateStars(){
+  let score = (numMoves - 1) / 2;
+  switch (score) {
+    case 10:
+      //decrease stars to 2.5
+      starHTML[0].children[2].innerHTML = '<i class="fa fa-star-half-o"></i>';
+      break;
+    case 15:
+      //decrease stars to 2
+      starHTML[0].children[2].innerHTML = '<i class="fa fa-star-o"></i>';
+      break;
+    case 20:
+      //decrease stars to 1.5
+      starHTML[0].children[1].innerHTML = '<i class="fa fa-star-half-o"></i>';
+      break;
+    case 25:
+      //decresae stars to 1
+      starHTML[0].children[2].innerHTML = '<i class="fa fa-star-o"></i>';
+      break;
+    case 30:
+      //decrease stars to .5
+      starHTML[0].children[1].innerHTML = '<i class="fa fa-star-half-o"></i>';
+      break;
+    case 35:
+      //decrease stars to 0
+      starHTML[0].children[2].innerHTML = '<i class="fa fa-star-o"></i>';
+
+  }
 }
 
 /*
