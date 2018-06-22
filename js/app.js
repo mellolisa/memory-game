@@ -269,7 +269,7 @@ for(let i = 0; i < cardHTML.length; i++) {
        */
 
       let matchedElement = checkListForMatch(i);
-      if(matchedElement > 0) {
+      if(matchedElement >= 0) {
 
         cardAddStatus = addToOpenList(i);
         if(cardAddStatus === 0) {
