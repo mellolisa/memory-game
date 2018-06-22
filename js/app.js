@@ -129,7 +129,7 @@ function displayWinGame(){
   clearInterval(t);
   timerRunning = false;
 
-  modal.innerHTML = '<div class="modal-content"><p>You won the game in ' + score + ' moves!</p></div>';
+  modal.innerHTML = '<div class="modal-content"><p>You won the game in ' + score + ' moves!  </p>' + timerHTML[0].innerHTML + ' </div>';
   modal.style.display = "block";
   window.onclick = function(event) {
     if (event.target == modal) {
