@@ -106,13 +106,13 @@ html {
      padding: 20px;
      width: 100%;
 }
- .modal-content .stars {
+ .modal-content .stars-modal {
      margin: 5px;
      padding: 5px;
      display: inline-block;
      margin: 0 5px 0 0;
 }
- .modal-content .stars li {
+ .modal-content .stars-modal li {
      list-style: none;
      display: inline-block;
 }

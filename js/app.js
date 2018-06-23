@@ -167,11 +167,14 @@ function displayWinGame() {
     clearInterval(t);
     timerRunning = false;
 
-    modal.innerHTML = '<div class="modal-content"><p>You won the game in ' + score + ' moves!  </p>' + timerHTML[0].innerHTML + '<span><ul class="stars">' + starHTML[0].innerHTML + '</ul></span></div>';
+    modal.innerHTML = '<div class="modal-content"><p>You won the game in '
+        + score + ' moves!  </p>' + timerHTML[0].innerHTML + '<span><ul class="stars-modal">' +
+        starHTML[0].innerHTML + '</ul></span></div>';
     modal.style.display = "block";
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
+            restartGame();
         }
     }
 }
@@ -195,7 +198,8 @@ function incrementTime() {
     hours = Math.floor(updatedTime / 1800000);
     minutes = Math.floor((updatedTime % 1800000) / 30000);
     seconds = Math.floor((updatedTime % 30000) / 1000);
-    timerHTML[0].innerHTML = "Game Time: <time>" + zeroFill(hours, 2) + ":" + zeroFill(minutes, 2) + ":" + zeroFill(seconds, 2) + "</time>";
+    timerHTML[0].innerHTML = "Game Time: <time>" + zeroFill(hours, 2) + ":"
+        + zeroFill(minutes, 2) + ":" + zeroFill(seconds, 2) + "</time>";
 }
 
 function startTimer() {
